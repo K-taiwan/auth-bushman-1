@@ -16,16 +16,17 @@ app.use(bodyParser.json());
 // Serve Public Directory
 app.use(express.static(__dirname + '/public'));
 
-
+app.use(session({
+  secret: 'Sssshhhhhh, this is a secret....',
+  resave: false, // save session on every request
+  saveUninitialized: false, // Only save session if session exists on req object.
+}))
 
 // ------------------------------------------------- ENDPOINTS ------------------------------------------------- //
 
 // HTML Routes
-app.get('/', (req, res) => {
-  res.sendFile('views/index.html', {
-    root: __dirname
-  });
-});
+app.use('/', routes.views);
+
 
 // API Routes
 
