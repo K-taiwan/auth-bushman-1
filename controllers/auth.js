@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 
 const db = require('../models');
 
+// POST Create User
 const createUser = (req, res) => {
   // console.log('Create User Route');
   db.User.findOne({ email: req.body.email }, (err, foundUser) => {
@@ -51,6 +52,59 @@ const createUser = (req, res) => {
 };
 
 
+const createSession = (req, res) => {
+  console.log('Request session object --> ', req.session);
+  db.User.findOne({ email: req.body.email }, (err, foundUser) => {
+    if (err) return res.status(500).json({
+      status: 500,
+      error: [{ message: 'Something went wrong. Please try again' }],
+    });
+
+    // If no user is found by email address
+    if (!foundUser) return res.status(400).json({
+      status: 400,
+      error: [{ message: 'Username or password is incorrect' }],
+    });
+
+    bcrypt.compare(req.body.password, foundUser.password, (err, isMatch) => {
+      if (err) return res.status(500).json({
+        status: 500,
+        error: [{ message: 'Something went wrong. Please try again' }],
+      });
+
+      if (isMatch) {
+        req.session.currentUser = foundUser._id;
+        return res.status(201).json({
+          status: 201,
+          data: { id: foundUser._id },
+        });
+      } else {
+        return res.status(400).json({
+          status: 400,
+          error: [{ message: 'Username or password is incorrect' }],
+        });
+      }
+    });
+  });
+}
+
+// POST Verify Auth
+const verifyAuth = (req, res) => {
+  if (!req.session.currentUser) {
+    return res.status(401).json({
+      status: 401,
+      error: [{ message: 'Unauthorized. Pleas login and try again' }],
+    });
+  }
+
+  res.status(200).json({
+    status: 200,
+    user: req.session.currentUser,
+  });
+}
+
 module.exports = {
   createUser,
+  createSession,
+  verifyAuth,
 };

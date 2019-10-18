@@ -20,7 +20,7 @@ app.use(session({
   secret: 'Sssshhhhhh, this is a secret....',
   resave: false, // save session on every request
   saveUninitialized: false, // Only save session if session exists on req object.
-}))
+}));
 
 // ------------------------------------------------- ENDPOINTS ------------------------------------------------- //
 
