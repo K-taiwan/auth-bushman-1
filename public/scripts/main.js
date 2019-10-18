@@ -58,4 +58,24 @@ form && form.addEventListener('submit', (event) => {
       })
       .catch(err => console.log(err));
   }
+
+  // Handle Logim
+  if (form.id === 'login' && formIsValid) {
+    console.log('Submitting user login --> ', userData);
+    // fetch('/api/v1/login', {
+    //   method: 'POST',
+    //   credentials: 'include',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(userData)
+    // })
+    //   .then(dataStream => dataStream.json())
+    //   .then(res => {
+    //     console.log(res);
+    //     if (res.status === 200) return window.location = `/profile/${res.data.id}`;
+    //   })
+    //   .catch(err => console.log(err));
+  }
+
 });

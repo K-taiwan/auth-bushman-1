@@ -47,9 +47,6 @@ const createUser = (req, res) => {
         });
       });
     });
-
-    
-
   });
 };
 

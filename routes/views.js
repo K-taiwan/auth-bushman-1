@@ -9,10 +9,20 @@ router.get('/', (req, res) => {
   });
 });
 
+// GET Signup
 router.get('/signup', (req, res) => {
   res.sendFile('views/auth/signup.html', {
     root: `${__dirname}/../`
   });
 });
+
+
+// GET Login
+router.get('/login', (req, res) => {
+  res.sendFile('views/auth/login.html', {
+    root: `${__dirname}/../`
+  });
+});
+
 
 module.exports = router;
