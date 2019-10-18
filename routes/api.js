@@ -8,4 +8,5 @@ const ctrl = require('../controllers');
 
 router.post('/signup', ctrl.auth.createUser);
 
+
 module.exports = router;

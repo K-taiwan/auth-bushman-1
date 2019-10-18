@@ -54,7 +54,7 @@ form && form.addEventListener('submit', (event) => {
       .then(dataStream => dataStream.json())
       .then(res => {
         console.log(res);
-        if (res.status === 201) return window.location = '/login';
+        // if (res.status === 201) return window.location = '/login';
       })
       .catch(err => console.log(err));
   }
