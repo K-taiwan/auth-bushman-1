@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const ctrl = require('../controllers');
 
+// ------------------------------- AUTH ---------------------------- //
+
 // GET Home
 router.get('/', (req, res) => {
   res.sendFile('views/index.html', {
@@ -24,5 +26,18 @@ router.get('/login', (req, res) => {
   });
 });
 
+
+// ------------------------------- Profile ---------------------------- //
+
+// GET User Profile
+router.get('/profile/:userId', (req, res) => {
+  if (!req.session.currentUser) {
+    return res.redirect('/login');
+  }
+
+  res.sendFile('views/profile/show.html', {
+    root: `${__dirname}/../`
+  });
+});
 
 module.exports = router;

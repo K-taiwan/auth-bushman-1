@@ -103,8 +103,34 @@ const verifyAuth = (req, res) => {
   });
 }
 
+const userProfile = () => {
+  if (!req.session.currentUser) {
+    return res.status(401).json({
+      status: 401,
+      error: [{ message: 'Unauthorized. Pleas login and try again' }],
+    });
+  }
+};
+
+
+// GET Show Profile
+const showProfile = (req, res) => {
+  db.User.findById(req.params.userId, (err, foundProfile) => {
+    if (err) return res.status(500).json({
+      status: 500,
+      error: [{ message: 'Something went wrong. Please try again' }],
+    });
+
+    res.status(200).json({
+      status: 200,
+      data: foundProfile,
+    });
+  });
+};
+
 module.exports = {
   createUser,
   createSession,
   verifyAuth,
+  showProfile,
 };

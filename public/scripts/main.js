@@ -4,6 +4,7 @@ const form = document.querySelector('form');
 
 // console.log(form.elements);
 
+// If form is not falsey, listen for form submit event
 form && form.addEventListener('submit', (event) => {
   let formIsValid = true;
   const userData = {};
@@ -13,7 +14,6 @@ form && form.addEventListener('submit', (event) => {
   [...form.elements].forEach(input => {
     if (input.type !== 'submit' && input.value === '') {
       formIsValid = false;
-      // e.preventDefault();
       input.classList.add('input-error');
       input.insertAdjacentHTML('afterend', `
         <div class='alert ${input.id}-message'>
@@ -22,7 +22,6 @@ form && form.addEventListener('submit', (event) => {
     `);
     } else if (input.type === 'password' && input.value.length < 4) {
       formIsValid = false;
-      // e.preventDefault();
       input.classList.add('input-error');
       input.insertAdjacentHTML('afterend', `
         <div class='alert ${input.id}-message'>
@@ -59,7 +58,7 @@ form && form.addEventListener('submit', (event) => {
       .catch(err => console.log(err));
   }
 
-  // Handle Logim
+  // Handle Login
   if (form.id === 'login' && formIsValid) {
     console.log('Submitting user login --> ', userData);
     fetch('/api/v1/login', {
@@ -73,7 +72,7 @@ form && form.addEventListener('submit', (event) => {
       .then(dataStream => dataStream.json())
       .then(res => {
         console.log(res);
-        if (res.status === 200) return window.location = `/profile/${res.data.id}`;
+        if (res.status === 201) return window.location = `/profile/${res.data.id}`;
       })
       .catch(err => console.log(err));
   }
