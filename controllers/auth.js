@@ -52,6 +52,7 @@ const createUser = (req, res) => {
 };
 
 
+// POST Login
 const createSession = (req, res) => {
   console.log('Request session object --> ', req.session);
   db.User.findOne({ email: req.body.email }, (err, foundUser) => {
@@ -88,6 +89,21 @@ const createSession = (req, res) => {
   });
 }
 
+
+// DELETE Logout
+const deleteSession = (req, res) => {
+  req.session.destroy(err => {
+    if (err) return res.status(500).json({
+      status: 500,
+      errors: [{message: 'Something went wrong. Please try again'}]});
+
+    res.status(200).json({
+      status: 200,
+      message: 'Success',
+    });
+  });
+}
+
 // POST Verify Auth
 const verifyAuth = (req, res) => {
   if (!req.session.currentUser) {
@@ -102,15 +118,6 @@ const verifyAuth = (req, res) => {
     user: req.session.currentUser,
   });
 }
-
-const userProfile = () => {
-  if (!req.session.currentUser) {
-    return res.status(401).json({
-      status: 401,
-      error: [{ message: 'Unauthorized. Pleas login and try again' }],
-    });
-  }
-};
 
 
 // GET Show Profile
@@ -131,6 +138,7 @@ const showProfile = (req, res) => {
 module.exports = {
   createUser,
   createSession,
+  deleteSession,
   verifyAuth,
   showProfile,
 };

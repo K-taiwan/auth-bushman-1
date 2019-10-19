@@ -8,6 +8,7 @@ const ctrl = require('../controllers');
 
 router.post('/signup', ctrl.auth.createUser);
 router.post('/login', ctrl.auth.createSession);
+router.delete('/logout', ctrl.auth.deleteSession);
 router.get('/verify', ctrl.auth.verifyAuth);
 
 

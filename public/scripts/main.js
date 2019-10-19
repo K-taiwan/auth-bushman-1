@@ -1,6 +1,25 @@
 console.log('Ground control to Major Tom...');
 
 const form = document.querySelector('form');
+const logoutButton = document.querySelector('#logout');
+
+// Listen for logout click event
+logoutButton.addEventListener('click', (event) => {
+  event.preventDefault();
+  fetch('/api/v1/logout', {
+    method: 'DELETE',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+  })
+    .then(dataStream => dataStream.json())
+    .then(res => {
+      if (res.status === 200) {
+        window.location = '/login';
+      }
+    })
+})
 
 // console.log(form.elements);
 
@@ -53,7 +72,7 @@ form && form.addEventListener('submit', (event) => {
       .then(dataStream => dataStream.json())
       .then(res => {
         console.log(res);
-        // if (res.status === 201) return window.location = '/login';
+        if (res.status === 201) return window.location = '/login';
       })
       .catch(err => console.log(err));
   }
